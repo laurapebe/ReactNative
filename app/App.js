@@ -6,26 +6,18 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   Button,
-  StyleSheet,
   Text,
   useColorScheme,
-  View,
-  onState
+  View
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 const Section = ({children, title}): Node => {
@@ -56,7 +48,8 @@ const Section = ({children, title}): Node => {
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  let [count, setCount] = useState(0);
+  let [theDate, setDate] = useState(d);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -66,36 +59,28 @@ const App: () => Node = () => {
     d = new Date().toUTCString();
   }
 
+  useEffect(() => {
+    setInterval(() => {
+      setCount(count+1);
+    }, 100)
+  });
   // Hook para actualizar propiedad
-  onState
+  // El primero es el state actual. El segundo es la accion para actualizar el state
+
   return (
     <SafeAreaView style={backgroundStyle}>
+      <Text
+      text={theDate}>{theDate}</Text>
       <Button 
-      onPress={onPressHora}
+      onPress={() => {onPressHora();setDate(d);}}
       title="presionar aqui"/>
-      <Text nativeID={d}>{d}</Text>
+
+      <Text>{count}</Text>
+      
     </SafeAreaView>
     
   );
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
